@@ -8,8 +8,8 @@ const Home = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const videos = await VideosFinder.get('/videos')
-        setVideos(videos)
+        const response = await VideosFinder.get('/videos')
+        setVideos(response.data.data.videos)
       } catch (err) {
         console.log(err)
       }
@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <>
     <h1>Home</h1>
-    <VideosList videos={videos.data} />
+    <VideosList videos={videos} />
     </>
   )
 }
