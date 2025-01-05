@@ -24,13 +24,29 @@ cron.schedule('0,10,20,30,40,50 * * * *', async () => {
 
 app.get('/api/v1/videos', async (req, res) => {
     try {
-        const response = await db.query('SELECT * FROM videos LIMIT 10')
-        const videos = response.rows
+        const videosResponse = await db.query('SELECT * FROM videos LIMIT 10')
+        const videos = videosResponse.rows
+
+        const userTeamsResponse = await db.query('SELECT * FROM user_teams');
+        const userTeams = userTeamsResponse.rows
+
+        const teamsSet = new Set()
+        userTeams.forEach((userTeam) => {
+            teamsSet.add(userTeam.team)
+        })
+
+        const filteredVideos = videos.filter((video) => {
+            const videoTitle = video.title.toLowerCase()
+            const [team1, team2WithRest] = videoTitle.split(' at ')
+            const [team2, ...rest] = team2WithRest.trim().split(' ')
+            return teamsSet.has(team1) || teamsSet.has(team2)
+        })
         
         res.status(200).json({
             status: 'success',
             data: {
-                videos
+                videos: filteredVideos,
+                userTeams
             }
         })
 

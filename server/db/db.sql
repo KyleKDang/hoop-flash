@@ -6,3 +6,10 @@ CREATE TABLE videos (
     thumbnail TEXT NOT NULL,
     publish_date TEXT NOT NULL
 );
+
+CREATE TABLE user_teams (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    team TEXT NOT NULL
+);
+
