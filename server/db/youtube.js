@@ -1,5 +1,4 @@
 require('dotenv').config({ path: '../.env' })
-const googleKey = process.env.GOOGLE_API_KEY
 
 const db = require('./index.js')
 
@@ -8,14 +7,14 @@ const youtube = google.youtube('v3')
 
 const fetchData = async () => {
     await db.query('DROP TABLE IF EXISTS videos')
-    await db.query('CREATE TABLE videos (id BIGSERIAL PRIMARY KEY, video_id TEXT NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL, thumbnail TEXT NOT NULL, publish_date TEXT NOT NULL)')
+    await db.query('CREATE TABLE videos (id SERIAL PRIMARY KEY, video_id TEXT NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL, thumbnail TEXT NOT NULL, publish_date TEXT NOT NULL)')
 
     try {
         const response = await youtube.playlistItems.list({
-            key: googleKey,
+            key: process.env.GOOGLE_API_KEY,
             part: 'snippet',
-            playlistId: process.env.NBA_UPLOADS_ID,
-            maxResults: 50
+            playlistId: process.env.NBA_HIGHLIGHTS_ID,
+            maxResults: 15
         })
 
         const items = response.data.items
@@ -40,4 +39,4 @@ const fetchData = async () => {
     }
 }
 
-fetchData()
+module.exports = fetchData
