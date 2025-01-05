@@ -13,3 +13,13 @@ CREATE TABLE user_teams (
     team TEXT NOT NULL
 );
 
+CREATE TABLE teams (
+    id SERIAL PRIMARY KEY,
+    conference TEXT NOT NULL,
+    division TEXT NOT NULL,
+    city TEXT NOT NULL,
+    name TEXT NOT NULL,
+    full_name TEXT NOT NULL,
+    abbreviation TEXT NOT NULL
+);
+

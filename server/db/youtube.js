@@ -5,7 +5,7 @@ const db = require('./index.js')
 const { google } = require('googleapis')
 const youtube = google.youtube('v3')
 
-const fetchData = async () => {
+const fetchYoutubeVideos = async () => {
     await db.query('DROP TABLE IF EXISTS videos')
     await db.query('CREATE TABLE videos (id SERIAL PRIMARY KEY, video_id TEXT NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL, thumbnail TEXT NOT NULL, publish_date TEXT NOT NULL)')
 
@@ -39,4 +39,4 @@ const fetchData = async () => {
     }
 }
 
-module.exports = fetchData
+module.exports = fetchYoutubeVideos
