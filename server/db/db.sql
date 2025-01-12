@@ -10,7 +10,8 @@ CREATE TABLE videos (
 CREATE TABLE user_teams (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
-    team TEXT NOT NULL
+    team_id INT REFERENCES teams(id) NOT NULL,
+    CONSTRAINT unique_user_team UNIQUE(user_id, team_id)
 );
 
 CREATE TABLE teams (

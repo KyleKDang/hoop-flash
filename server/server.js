@@ -27,20 +27,24 @@ app.get('/api/v1/videos', async (req, res) => {
         const videosResponse = await db.query('SELECT * FROM videos LIMIT 10')
         const videos = videosResponse.rows
 
-        const userTeamsResponse = await db.query('SELECT * FROM user_teams');
+        const userTeamsResponse = await db.query(
+            `SELECT name FROM user_teams INNER JOIN teams ON team_id = teams.id WHERE user_id = $1`, [1]
+        );
         const userTeams = userTeamsResponse.rows
 
         const teamsSet = new Set()
         userTeams.forEach((userTeam) => {
-            teamsSet.add(userTeam.team)
+            teamsSet.add(userTeam.name.toLowerCase())
         })
 
+        
         const filteredVideos = videos.filter((video) => {
             const videoTitle = video.title.toLowerCase()
             const [team1, team2WithRest] = videoTitle.split(' at ')
             const [team2, ...rest] = team2WithRest.trim().split(' ')
             return teamsSet.has(team1) || teamsSet.has(team2)
         })
+        
         
         res.status(200).json({
             status: 'success',
