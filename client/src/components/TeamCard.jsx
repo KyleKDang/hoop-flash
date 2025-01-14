@@ -2,6 +2,7 @@ import React from 'react'
 import teamLogos from '../images/team-logos.js'
 
 const TeamCard = ({ team, selected }) => {
+  
   return (
     <div className='flex flex-col items-center'>
         <img 

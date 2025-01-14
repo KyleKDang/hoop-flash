@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import VideosFinder from '../apis/Finder'
+import VideosFinder from '../apis/api'
 import VideosList from '../components/VideosList'
 
 const Home = () => {

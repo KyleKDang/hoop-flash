@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import TeamsFinder from '../apis/Finder'
+import TeamsFinder from '../apis/api'
 import TeamsList from '../components/TeamsList'
 
 const Teams = () => {

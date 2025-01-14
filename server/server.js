@@ -98,6 +98,27 @@ app.get('/api/v1/teams', async (req, res) => {
 })
 
 
+app.post('/api/v1/teams', async (req, res) => {
+    try {
+        const results = await db.query(`
+            INSERT INTO user_teams (user_id, team_id) 
+            VALUES ($1, $2) 
+            RETURNING *
+        `, [1, req.body.team_id])
+
+        res.status(201).json({
+            status: 'success',
+            data: {
+                team: results.rows[0]
+            }
+        })
+
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+
 const port = process.env.PORT || 3000
 app.listen(port, () => {
     console.log(`server is up and listening on port ${port}`)
