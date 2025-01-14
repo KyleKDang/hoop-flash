@@ -59,6 +59,45 @@ app.get('/api/v1/videos', async (req, res) => {
     }
 })
 
+
+app.get('/api/v1/teams', async (req, res) => {
+    try {
+
+        const selectedTeamsResponse = await db.query(`
+            SELECT teams.id, full_name
+            FROM teams 
+            LEFT JOIN user_teams 
+            ON teams.id = team_id
+            WHERE team_id IS NOT NULL 
+            ORDER BY teams.id
+        `)
+        const selectedTeams = selectedTeamsResponse.rows
+
+        const unselectedTeamsResponse = await db.query(`
+            SELECT teams.id, full_name 
+            FROM teams 
+            LEFT JOIN user_teams 
+            ON teams.id = team_id 
+            WHERE team_id IS NULL
+            ORDER BY teams.id
+        `)
+        const unselectedTeams = unselectedTeamsResponse.rows
+
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                selectedTeams,
+                unselectedTeams
+            }
+        })
+
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+
 const port = process.env.PORT || 3000
 app.listen(port, () => {
     console.log(`server is up and listening on port ${port}`)
