@@ -21,7 +21,6 @@ const Home = () => {
   console.log(videos)
   return (
     <>
-    <h1>Home</h1>
     <VideosList videos={videos} />
     </>
   )
