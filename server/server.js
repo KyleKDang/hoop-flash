@@ -119,6 +119,23 @@ app.post('/api/v1/teams', async (req, res) => {
 })
 
 
+app.delete('/api/v1/teams', async (req, res) => {
+    try {
+        await db.query(`
+            DELETE FROM user_teams
+            WHERE team_id = $1
+        `, [req.body.team_id])
+
+        res.status(204).json({
+            status: 'success',
+        })
+
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+
 const port = process.env.PORT || 3000
 app.listen(port, () => {
     console.log(`server is up and listening on port ${port}`)
