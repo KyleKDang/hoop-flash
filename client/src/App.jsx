@@ -8,7 +8,7 @@ import Teams from "./routes/Teams";
 const App = () => {
     return (
         <>
-        <Navbar />
+        <Navbar/>
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/teams' element={<Teams />} />

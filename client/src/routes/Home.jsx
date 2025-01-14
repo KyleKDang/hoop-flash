@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import VideosFinder from '../apis/VideosFinder'
+import VideosFinder from '../apis/Finder'
 import VideosList from '../components/VideosList'
 
 const Home = () => {
@@ -14,7 +14,6 @@ const Home = () => {
         console.log(err)
       }
     }
-
     fetchVideos()
   }, [])
 
