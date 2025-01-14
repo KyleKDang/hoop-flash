@@ -24,7 +24,7 @@ cron.schedule('0,10,20,30,40,50 * * * *', async () => {
 
 app.get('/api/v1/videos', async (req, res) => {
     try {
-        const videosResponse = await db.query('SELECT * FROM videos LIMIT 10')
+        const videosResponse = await db.query('SELECT * FROM videos')
         const videos = videosResponse.rows
 
         const userTeamsResponse = await db.query(
@@ -119,12 +119,12 @@ app.post('/api/v1/teams', async (req, res) => {
 })
 
 
-app.delete('/api/v1/teams', async (req, res) => {
+app.delete('/api/v1/teams/:team_id', async (req, res) => {
     try {
         await db.query(`
             DELETE FROM user_teams
             WHERE team_id = $1
-        `, [req.body.team_id])
+        `, [req.params.team_id])
 
         res.status(204).json({
             status: 'success',

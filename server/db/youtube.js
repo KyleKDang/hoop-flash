@@ -14,7 +14,7 @@ const fetchYoutubeVideos = async () => {
             key: process.env.GOOGLE_API_KEY,
             part: 'snippet',
             playlistId: process.env.NBA_HIGHLIGHTS_ID,
-            maxResults: 15
+            maxResults: 50
         })
 
         const items = response.data.items

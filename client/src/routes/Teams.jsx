@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import TeamsFinder from '../apis/api'
 import TeamsList from '../components/TeamsList'
+import { TeamsContext } from '../contexts/TeamsContext'
 
 const Teams = () => {
-  const [selectedTeams, setSelectedTeams] = useState([])
-  const [unselectedTeams, setUnselectedTeams] = useState([])
+  const { selectedTeams, setSelectedTeams, unselectedTeams, setUnselectedTeams } = useContext(TeamsContext)
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -17,7 +17,7 @@ const Teams = () => {
         }
     }
     fetchTeams()
-  }, [])
+  })
 
   return (
     <>
