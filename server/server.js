@@ -12,7 +12,7 @@ app.use(cors())
 
 const refreshDatabase = require('./db/youtube.js')
 const cron = require('node-cron')
-cron.schedule('0,10,20,30,40,50 * * * *', async () => {
+cron.schedule('0,5,10,15,20,25,30,35,40,45,50,55 * * * *', async () => {
     try {
         await refreshDatabase()
         console.log('successfully refreshed database')
