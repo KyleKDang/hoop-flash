@@ -19,9 +19,9 @@ const Home = () => {
 
   console.log(videos)
   return (
-    <>
+    <div className='flex flex-col items-center'>
     <VideosList videos={videos} />
-    </>
+    </div>
   )
 }
 
