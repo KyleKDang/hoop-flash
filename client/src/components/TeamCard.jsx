@@ -35,7 +35,7 @@ const TeamCard = ({ team, selected }) => {
               <div className='flex justify-center items-center gap-2'>
                 <span className='group-active:hidden group-hover:hidden'>{selected ? 'Selected' : 'Select'}</span>
                 <span className='hidden group-active:block group-hover:block'>{selected ? 'Unselect' : 'Select'}</span>
-                {selected && <IoMdCheckmark className=''/>}
+                {selected && <IoMdCheckmark className='group-hover:hidden group-active:hidden'/>}
               </div>
           </button>
         </div>
