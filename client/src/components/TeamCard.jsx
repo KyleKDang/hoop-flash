@@ -28,7 +28,7 @@ const TeamCard = ({ team, selected }) => {
             />
         </div>
         <div className='flex flex-col gap-8 pb-4 items-center'>
-          <span className='text-white font-archivo text-2xl lg:text-3xl'>{team.full_name}</span>
+          <span className='text-white font-archivo text-2xl'>{team.full_name}</span>
           <button 
               onClick={() => selected ? handleUnselectTeam(team.id) : handleSelectTeam(team.id)} 
               className='w-72 button text-white font-archivo bg-black p-2 rounded-full hover:outline active:bg-neutral-700 active:outline group'>
