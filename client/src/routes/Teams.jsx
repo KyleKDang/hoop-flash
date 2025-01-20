@@ -22,6 +22,7 @@ const Teams = () => {
   return (
     <>
     <TeamsList teams={selectedTeams} selected={true} />
+    <hr className='border-neutral-950 border-2'/>
     <TeamsList teams={unselectedTeams} selected={false} />
     </>
   )
