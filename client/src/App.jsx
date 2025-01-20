@@ -11,10 +11,12 @@ const App = () => {
         <>
         <TeamsContextProvider>
             <Navbar/>
-            <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/teams' element={<Teams />} />
-            </Routes>
+            <div className='mt-14'>
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/teams' element={<Teams />} />
+                </Routes>
+            </div>
         </TeamsContextProvider>
         </>
     )
