@@ -12,7 +12,7 @@ app.use(cors())
 
 const refreshDatabase = require('./db/youtube.js')
 const cron = require('node-cron')
-cron.schedule('0,5,10,15,20,25,30,35,40,45,50,55 * * * *', async () => {
+cron.schedule('0,10,20,28,30,40,50 * * * *', async () => {
     try {
         await refreshDatabase()
         console.log('successfully refreshed database')
@@ -39,10 +39,14 @@ app.get('/api/v1/videos', async (req, res) => {
 
         
         const filteredVideos = videos.filter((video) => {
-            const videoTitle = video.title.toLowerCase()
-            const [team1, team2WithRest] = videoTitle.split(' at ')
-            const [team2, ...rest] = team2WithRest.trim().split(' ')
-            return teamsSet.has(team1) || teamsSet.has(team2)
+            try {
+                const videoTitle = video.title.toLowerCase()
+                const [team1, team2WithRest] = videoTitle.split(' at ')
+                const [team2, ...rest] = team2WithRest.trim().split(' ')
+                return teamsSet.has(team1) || teamsSet.has(team2)
+            } catch (err) {
+                console.log(err)
+            }
         })
         
         
