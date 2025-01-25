@@ -20,17 +20,21 @@ const fetchYoutubeVideos = async () => {
         const items = response.data.items
 
         for (let video of items) {
-            const videoId = video.snippet.resourceId.videoId
-            const title = video.snippet.title
-            const description = video.snippet.description
-            const thumbnail = video.snippet.thumbnails.high.url
-            const publishDate = video.snippet.publishedAt
-            
-            if (videoId && title && description && thumbnail && publishDate) {
-                await db.query(
-                    'INSERT INTO videos (video_id, title, description, thumbnail, publish_date) VALUES ($1, $2, $3, $4, $5)',
-                    [videoId, title, description, thumbnail, publishDate]
-                )
+            try {
+                const videoId = video.snippet.resourceId.videoId
+                const title = video.snippet.title
+                const description = video.snippet.description
+                const thumbnail = video.snippet.thumbnails.high.url
+                const publishDate = video.snippet.publishedAt
+
+                if (videoId && title && description && thumbnail && publishDate) {
+                    await db.query(
+                        'INSERT INTO videos (video_id, title, description, thumbnail, publish_date) VALUES ($1, $2, $3, $4, $5)',
+                        [videoId, title, description, thumbnail, publishDate]
+                    )
+                }
+            } catch (err) {
+                console.log(err)
             }
         }
 
