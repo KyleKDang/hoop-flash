@@ -42,7 +42,7 @@ app.get('/api/v1/videos', async (req, res) => {
             try {
                 const videoTitle = video.title.toLowerCase()
                 const [team1, team2WithRest] = videoTitle.split(' at ')
-                const [team2, ...rest] = team2WithRest.trim().split(' ')
+                const [team2, ...rest] = team2WithRest.trim().split(' | ')
                 return teamsSet.has(team1) || teamsSet.has(team2)
             } catch (err) {
                 console.log(err)
