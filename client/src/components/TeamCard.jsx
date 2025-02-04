@@ -19,7 +19,7 @@ const TeamCard = ({ team, selected }) => {
 
   return (
     <div className='lg:w-1/3 p-8'>
-      <div className='flex flex-col items-center outline bg-gray-800 rounded-lg aspect square'>
+      <div className='flex flex-col items-center outline bg-gray-800 rounded-lg aspect-square'>
         <div className='p-10'>
           <img 
                 src={`/team-logos/${teamLogos[team.id - 1]}`} 

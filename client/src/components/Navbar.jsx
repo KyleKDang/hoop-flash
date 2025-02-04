@@ -13,7 +13,7 @@ const Navbar = () => {
       </ul>
       <ul className='flex pr-4 gap-8'>
         <li><Link to='/login' className='font-archivo hover:text-neutral-300'>LOGIN</Link></li>
-        <li><Link to='/login' className='font-archivo hover:text-neutral-300'>SIGNUP</Link></li>
+        <li><Link to='/signup' className='font-archivo hover:text-neutral-300'>SIGNUP</Link></li>
       </ul>
     </nav>
   )
