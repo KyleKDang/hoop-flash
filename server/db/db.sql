@@ -1,3 +1,12 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL
+);
+
+INSERT INTO users (username, password_hash)
+VALUES ('guest', 'password');
+
 CREATE TABLE videos (
     id SERIAL PRIMARY KEY,
     video_id TEXT NOT NULL,
@@ -9,7 +18,7 @@ CREATE TABLE videos (
 
 CREATE TABLE user_teams (
     id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id INT REFERENCES users(id) NOT NULL,
     team_id INT REFERENCES teams(id) NOT NULL,
     CONSTRAINT unique_user_team UNIQUE(user_id, team_id)
 );
