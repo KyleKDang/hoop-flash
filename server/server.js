@@ -44,8 +44,15 @@ app.post('/api/v1/users', async (req, res) => {
             }
         })
 
-    } catch {
+    } catch (err) {
         console.log(err)
+
+        if (err.code === '23505') {
+            res.status(409).json({
+                status: 'error',
+                message: 'Username is taken'
+            })
+        }
     }
 })
 
