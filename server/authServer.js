@@ -6,9 +6,13 @@ const bcrypt = require('bcrypt')
 const app = express()
 
 const db = require('./db')
-const authenticateToken = require('./middleware/auth.js')
 
 app.use(express.json())
+
+
+function generateAccessToken(user) {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' })
+}
 
 
 app.post('/api/v1/auth/signup', async (req, res) => {
@@ -18,14 +22,14 @@ app.post('/api/v1/auth/signup', async (req, res) => {
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
-        const results = await db.query(`
+        const result = await db.query(`
             INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *
         `, [username, hashedPassword])
 
         res.status(201).json({
             status: 'success',
             data: {
-                user: results.rows[0]
+                user: result.rows[0]
             }
         })
 
@@ -48,25 +52,28 @@ app.post('/api/v1/auth/login', async (req, res) => {
         const password = req.body.password
 
         const userResponse = await db.query('SELECT * FROM users WHERE username = $1', [username])
-        const user = userResponse.rows[0]
-        const user_id = user.id
+        const userData = userResponse.rows[0]
+        const userId = userData.id
 
 
-        if (!user) {
+        if (!userData) {
             return res.status(400).json({
                 status: 'error',
                 message: 'Cannot find user'
             })
         }
 
-        if (await bcrypt.compare(password, user.password_hash)) {
+        if (await bcrypt.compare(password, userData.password_hash)) {
+            const user = { userId, username }
 
-            const accessToken = jwt.sign({ user_id, username }, process.env.ACCESS_TOKEN_SECRET)
+            const accessToken = generateAccessToken(user)
+            const refreshToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
 
             res.status(201).json({
                 status: 'success',
                 data: {
-                    accessToken
+                    accessToken,
+                    refreshToken
                 }
             })
         }
@@ -74,6 +81,33 @@ app.post('/api/v1/auth/login', async (req, res) => {
     } catch (err) {
         console.log(err)
     }
+})
+
+
+app.post('/api/v1/auth/token', (req, res) => {
+    const refreshToken = req.body.token
+
+    const tokenResponse = db.query(`SELECT * FROM tokens WHERE token = $1`, [refreshToken])
+    const tokenData = tokenResponse.rows[0]
+
+    if (!tokenData) {
+        return res.sendStatus(403)
+    }
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) {
+            return res.sendStatus(403)
+        }
+
+        const accessToken = generateAccessToken({ userId: user.userId, username: user.username })
+
+        res.status(201).json({
+            status: 'success',
+            data: {
+                accessToken
+            }
+        })
+    })
 })
 
 

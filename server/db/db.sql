@@ -33,3 +33,8 @@ CREATE TABLE teams (
     abbreviation TEXT NOT NULL
 );
 
+CREATE TABLE tokens (
+    id SERIAL PRIMARY KEY,
+    refresh_token TEXT NOT NULL UNIQUE
+);
+
