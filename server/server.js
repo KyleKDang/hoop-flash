@@ -1,7 +1,6 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
-const bcrypt = require('bcrypt')
 
 const app = express()
 
@@ -20,70 +19,6 @@ cron.schedule('0,10,20,30,40,50 * * * *', async () => {
         console.log('successfully refreshed database')
     } catch (err) {
         console.log('failed to refresh database')
-    }
-})
-
-
-app.post('/api/v1/users', async (req, res) => {
-    try {
-        const username = req.body.username
-
-        const salt = await bcrypt.genSalt()
-        const hashedPassword = await bcrypt.hash(req.body.password, salt)
-
-        const results = await db.query(`
-            INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *
-        `, [username, hashedPassword])
-
-        res.status(201).json({
-            status: 'success',
-            data: {
-                user: results.rows[0]
-            }
-        })
-
-    } catch (err) {
-        console.log(err)
-
-        if (err.code === '23505') {
-            res.status(409).json({
-                status: 'error',
-                message: 'Username is taken'
-            })
-        }
-    }
-})
-
-
-app.post('/api/v1/users/login', async (req, res) => {
-    try {
-        const username = req.body.username
-        const password = req.body.password
-
-        const userResponse = await db.query('SELECT * FROM users WHERE username = $1', [username])
-        const user = userResponse.rows[0]
-
-        if (!user) {
-            return res.status(400).json({
-                status: 'error',
-                message: 'Cannot find user'
-            })
-        }
-
-        if (await bcrypt.compare(password, user.password_hash)) {
-            res.status(201).json({
-                status: 'success',
-                data: {
-                    user: {
-                        username,
-                        password
-                    }
-                }
-            })
-        }
-
-    } catch (err) {
-        console.log(err)
     }
 })
 
