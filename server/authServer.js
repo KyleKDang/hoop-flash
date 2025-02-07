@@ -91,12 +91,16 @@ app.post('/api/v1/auth/token', (req, res) => {
     const tokenData = tokenResponse.rows[0]
 
     if (!tokenData) {
-        return res.sendStatus(403)
+        return res.status(403).json({
+            status: 'error'
+        })
     }
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) {
-            return res.sendStatus(403)
+            return res.status(403).json({
+                status: 'error'
+            })
         }
 
         const accessToken = generateAccessToken({ userId: user.userId, username: user.username })
@@ -108,6 +112,22 @@ app.post('/api/v1/auth/token', (req, res) => {
             }
         })
     })
+})
+
+
+app.delete('/api/v1/auth/logout', async (req, res) => {
+    const refreshToken = req.body.token
+
+    try {
+        await db.query(`DELETE FROM tokens WHERE refresh_token = $1`, [refreshToken])
+
+        res.status(204).json({
+            status: 'success'
+        })
+        
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 
