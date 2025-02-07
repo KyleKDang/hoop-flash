@@ -42,13 +42,15 @@ app.post('/api/v1/auth/signup', async (req, res) => {
 })
 
 
-app.post('/api/v1/auth/login', authenticateToken, async (req, res) => {
+app.post('/api/v1/auth/login', async (req, res) => {
     try {
         const username = req.body.username
         const password = req.body.password
 
         const userResponse = await db.query('SELECT * FROM users WHERE username = $1', [username])
         const user = userResponse.rows[0]
+        const user_id = user.id
+
 
         if (!user) {
             return res.status(400).json({
@@ -59,7 +61,7 @@ app.post('/api/v1/auth/login', authenticateToken, async (req, res) => {
 
         if (await bcrypt.compare(password, user.password_hash)) {
 
-            const accessToken = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET)
+            const accessToken = jwt.sign({ user_id, username }, process.env.ACCESS_TOKEN_SECRET)
 
             res.status(201).json({
                 status: 'success',
