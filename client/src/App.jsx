@@ -7,10 +7,12 @@ import Teams from "./routes/Teams";
 import TeamsContextProvider from "./contexts/TeamsContext";
 import Login from "./routes/Login";
 import Signup from "./routes/Signup";
+import AuthContextProvider from "./contexts/AuthContext";
 
 const App = () => {
     return (
         <>
+        <AuthContextProvider>
         <TeamsContextProvider>
             <Navbar/>
             <div className='mt-14'>
@@ -22,6 +24,7 @@ const App = () => {
                 </Routes>
             </div>
         </TeamsContextProvider>
+        </AuthContextProvider>
         </>
     )
 }
