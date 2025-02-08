@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Navbar = () => {
+  const { loggedIn } = useContext(AuthContext)
+
   return (
     <nav className='fixed top-0 w-full h-14 flex items-center justify-between text-white bg-black'>
       <ul className='flex items-center lg:gap-4'>
@@ -12,8 +15,9 @@ const Navbar = () => {
         <li><Link to='/teams' className='font-archivo mr-4 lg:mr-14 hover:text-neutral-300'>TEAMS</Link></li>
       </ul>
       <ul className='flex mr-2 lg:mr-4 gap-2 lg:gap-8'>
-        <li><Link to='/login' className='font-archivo hover:text-neutral-300'>LOGIN</Link></li>
-        <li><Link to='/signup' className='font-archivo hover:text-neutral-300'>SIGNUP</Link></li>
+        {!loggedIn && <li><Link to='/login' className='font-archivo hover:text-neutral-300'>LOGIN</Link></li>}
+        {!loggedIn && <li><Link to='/signup' className='font-archivo hover:text-neutral-300'>SIGNUP</Link></li>}
+        {loggedIn && <li><Link to='/' className='font-archivo hover:text-neutral-300'>LOGOUT</Link></li>}
       </ul>
     </nav>
   )
