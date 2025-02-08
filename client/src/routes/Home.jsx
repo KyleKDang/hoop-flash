@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import VideosFinder from '../apis/api'
 import VideosList from '../components/VideosList'
+import { AuthContext } from '../contexts/AuthContext'
 
 const Home = () => {
+  const { userId } = useContext(AuthContext)
   const [videos, setVideos] = useState([])
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await VideosFinder.get('/videos')
+        const response = await VideosFinder.get(`/videos/${userId}`)
         setVideos(response.data.data.videos)
       } catch (err) {
         console.log(err)
