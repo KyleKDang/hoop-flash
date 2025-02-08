@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
@@ -8,6 +9,7 @@ const app = express()
 const db = require('./db')
 
 app.use(express.json())
+app.use(cors())
 
 
 function generateAccessToken(user) {

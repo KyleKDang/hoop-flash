@@ -17,11 +17,12 @@ const Home = () => {
       }
     }
     fetchVideos()
-  }, [])
+  }, [userId])
 
   console.log(videos)
   return (
     <div className='flex flex-col items-center'>
+      <h1>{userId}</h1>
     <VideosList videos={videos} />
     </div>
   )

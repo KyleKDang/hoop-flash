@@ -66,7 +66,7 @@ app.get('/api/v1/videos/:user_id', async (req, res) => {
 })
 
 
-app.get('/api/v1/teams', async (req, res) => {
+app.get('/api/v1/teams:user_id', async (req, res) => {
     try {
 
         const selectedTeamsResponse = await db.query(`
