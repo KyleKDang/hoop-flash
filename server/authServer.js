@@ -19,19 +19,32 @@ function generateAccessToken(user) {
 
 app.post('/api/v1/auth/signup', async (req, res) => {
     try {
-        const username = req.body.username
-
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
         const result = await db.query(`
             INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *
-        `, [username, hashedPassword])
+        `, [req.body.username, hashedPassword])
+
+        const userId = result.rows[0].id
+        const username = result.rows[0].username
+
+        const user = { userId, username }
+
+        const accessToken = generateAccessToken(user)
+        const refreshToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+
+        await db.query('INSERT INTO tokens (refresh_token) VALUES ($1)', [refreshToken])
+
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        })
 
         res.status(201).json({
             status: 'success',
             data: {
-                user: result.rows[0]
+                accessToken,
             }
         })
 
@@ -71,11 +84,17 @@ app.post('/api/v1/auth/login', async (req, res) => {
             const accessToken = generateAccessToken(user)
             const refreshToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
 
+            await db.query('INSERT INTO tokens (refresh_token) VALUES ($1)', [refreshToken])
+
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+            })
+
             res.status(201).json({
                 status: 'success',
                 data: {
                     accessToken,
-                    refreshToken
                 }
             })
         }
