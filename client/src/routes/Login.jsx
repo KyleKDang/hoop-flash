@@ -6,10 +6,17 @@ const Login = () => {
     const [password, setPassword] = useState('')
 
     const handleLogin = async (e) => {
-        await Auth.post('/login', {
-            username,
-            password
-        })
+        try {
+            const response = await Auth.post('/login', {
+                username,
+                password
+            })
+    
+            const accessToken = response.data.data.accessToken
+            localStorage.setItem('accessToken', accessToken)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
   return (

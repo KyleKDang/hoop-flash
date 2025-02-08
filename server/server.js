@@ -23,14 +23,15 @@ cron.schedule('0,10,20,30,40,50 * * * *', async () => {
 })
 
 
-app.get('/api/v1/videos/:user_id', async (req, res) => {
+app.get('/api/v1/videos', authenticateToken, async (req, res) => {
+
     try {
         const videosResponse = await db.query('SELECT * FROM videos')
         const videos = videosResponse.rows
 
         const userTeamsResponse = await db.query(
             `SELECT name FROM user_teams INNER JOIN teams ON team_id = teams.id WHERE user_id = $1`, 
-            [req.params.user_id]
+            [req.user.userId]
         );
         const userTeams = userTeamsResponse.rows
 
