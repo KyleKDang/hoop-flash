@@ -70,23 +70,25 @@ app.get('/api/v1/teams:user_id', async (req, res) => {
     try {
 
         const selectedTeamsResponse = await db.query(`
-            SELECT teams.id, full_name
-            FROM teams 
-            LEFT JOIN user_teams 
-            ON teams.id = team_id
-            WHERE team_id IS NOT NULL 
+            SELECT teams.id, full_name 
+            FROM teams
+            WHERE teams.id IN 
+            (SELECT team_id 
+            FROM user_teams
+            WHERE user_id = $1)
             ORDER BY teams.id
-        `)
+        `, [req.params.user_id])
         const selectedTeams = selectedTeamsResponse.rows
 
         const unselectedTeamsResponse = await db.query(`
             SELECT teams.id, full_name 
-            FROM teams 
-            LEFT JOIN user_teams 
-            ON teams.id = team_id 
-            WHERE team_id IS NULL
+            FROM teams
+            WHERE teams.id NOT IN 
+            (SELECT team_id 
+            FROM user_teams
+            WHERE user_id = $1)
             ORDER BY teams.id
-        `)
+        `, [req.params.user_id])
         const unselectedTeams = unselectedTeamsResponse.rows
 
 
@@ -110,7 +112,7 @@ app.post('/api/v1/teams', async (req, res) => {
             INSERT INTO user_teams (user_id, team_id) 
             VALUES ($1, $2) 
             RETURNING *
-        `, [1, req.body.team_id])
+        `, [req.body.user_id, req.body.team_id])
 
         res.status(201).json({
             status: 'success',
@@ -125,12 +127,13 @@ app.post('/api/v1/teams', async (req, res) => {
 })
 
 
-app.delete('/api/v1/teams/:team_id', async (req, res) => {
+app.delete('/api/v1/teams/:user_id/:team_id', async (req, res) => {
     try {
         await db.query(`
             DELETE FROM user_teams
-            WHERE team_id = $1
-        `, [req.params.team_id])
+            WHERE user_id = $1
+            AND team_id = $2
+        `, [req.params.user_id, req.params.team_id])
 
         res.status(204).json({
             status: 'success',

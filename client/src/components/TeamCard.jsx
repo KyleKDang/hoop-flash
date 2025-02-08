@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import teamLogos from '../images/team-logos.js'
 import TeamSelector from '../apis/api'
 import { IoMdCheckmark } from "react-icons/io"
+import { AuthContext } from '../contexts/AuthContext.jsx'
 
 const TeamCard = ({ team, selected }) => {
+  const { userId } = useContext(AuthContext)
 
   const handleSelectTeam = async (teamId) => {
     console.log(teamId)
     await TeamSelector.post('/teams', {
+        user_id: userId,
         team_id: teamId
     })
   }
 
   const handleUnselectTeam = async (teamId) => {
     console.log(teamId)
-    await TeamSelector.delete(`/teams/${teamId}`)
+    await TeamSelector.delete(`/teams/${userId}/${teamId}`)
   }
 
   return (
