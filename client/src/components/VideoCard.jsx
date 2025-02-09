@@ -2,7 +2,6 @@ import React from 'react'
 
 const VideoCard = ({ video }) => {
 
-    console.log(video.videoid)
   return (
     <div className='w-10/12 lg:w-5/12 flex flex-col justify-center items-center my-4 lg:my-8 bg-gray-800 p-4 lg:p-8 rounded-lg outline gap-3'>
         <div className='font-archivo text-white my-2 lg:my-4 max-w-96 text-sm lg:text-lg text-center'>{video.title}</div>

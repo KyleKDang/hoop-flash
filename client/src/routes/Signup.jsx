@@ -1,12 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import Auth from '../apis/auth'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../contexts/AuthContext'
 
 const Signup = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const { setLoggedIn, setUserId } = useContext(AuthContext)
     const navigate = useNavigate()
 
     const handleSignUp = async (e) => {
@@ -19,8 +17,9 @@ const Signup = () => {
             })
             console.log('sucessfully created new user')
 
-            setLoggedIn(true)
-            setUserId(response.data.data.user.id)
+            const accessToken = response.data.data.accessToken
+            localStorage.setItem('accessToken', accessToken)
+
             navigate('/')
         } catch (err) {
             console.log(err)

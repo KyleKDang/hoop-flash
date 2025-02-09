@@ -23,6 +23,16 @@ cron.schedule('0,10,20,30,40,50 * * * *', async () => {
 })
 
 
+app.get('/api/v1/user', authenticateToken, (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user: req.user
+        }
+    })
+})
+
+
 app.get('/api/v1/videos', authenticateToken, async (req, res) => {
 
     try {
