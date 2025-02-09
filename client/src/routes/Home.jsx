@@ -7,7 +7,7 @@ const Home = () => {
   const accessToken = localStorage.getItem('accessToken')
 
   const [videos, setVideos] = useState([])
-  const { user, setUser, loggedIn, setLoggedIn } = useContext(AuthContext)
+  const { user, setUser, setLoggedIn } = useContext(AuthContext)
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -31,7 +31,7 @@ const Home = () => {
     }
 
       fetchUser()
-  }, [accessToken])
+  }, [accessToken, setLoggedIn, setUser])
 
   useEffect(() => {
     const fetchVideos = async () => {
