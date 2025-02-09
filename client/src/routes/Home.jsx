@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import VideosFinder from '../apis/api'
+import Finder from '../apis/api'
 import VideosList from '../components/VideosList'
 import { AuthContext } from '../contexts/AuthContext'
 
@@ -7,12 +7,36 @@ const Home = () => {
   const accessToken = localStorage.getItem('accessToken')
 
   const [videos, setVideos] = useState([])
-  const { user } = useContext(AuthContext)
+  const { user, setUser, loggedIn, setLoggedIn } = useContext(AuthContext)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await Finder.get(`/user`, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        })
+
+        const user = response.data.data.user
+
+        if (user.userId !== 1) {
+            setLoggedIn(true)
+            setUser(user)
+        }
+
+      } catch (err) {
+          console.log(err)
+      }
+    }
+
+      fetchUser()
+  }, [accessToken])
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await VideosFinder.get(`/videos`, {
+        const response = await Finder.get(`/videos`, {
           headers: {
             'Authorization': `Bearer ${accessToken}`
           }

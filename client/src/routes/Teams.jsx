@@ -5,13 +5,13 @@ import { TeamsContext } from '../contexts/TeamsContext'
 import { AuthContext } from '../contexts/AuthContext'
 
 const Teams = () => {
-  const { userId } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const { selectedTeams, setSelectedTeams, unselectedTeams, setUnselectedTeams } = useContext(TeamsContext)
 
   useEffect(() => {
     const fetchTeams = async () => {
         try {
-            const response = await TeamsFinder.get(`/teams${userId}`)
+            const response = await TeamsFinder.get(`/teams${user.userId}`)
             setSelectedTeams(response.data.data.selectedTeams)
             setUnselectedTeams(response.data.data.unselectedTeams)
         } catch (err) {

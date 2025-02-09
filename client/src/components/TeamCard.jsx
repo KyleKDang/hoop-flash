@@ -5,19 +5,19 @@ import { IoMdCheckmark } from "react-icons/io"
 import { AuthContext } from '../contexts/AuthContext.jsx'
 
 const TeamCard = ({ team, selected }) => {
-  const { userId } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   const handleSelectTeam = async (teamId) => {
     console.log(teamId)
     await TeamSelector.post('/teams', {
-        user_id: userId,
+        user_id: user.userId,
         team_id: teamId
     })
   }
 
   const handleUnselectTeam = async (teamId) => {
     console.log(teamId)
-    await TeamSelector.delete(`/teams/${userId}/${teamId}`)
+    await TeamSelector.delete(`/teams/${user.userId}/${teamId}`)
   }
 
   return (

@@ -136,8 +136,8 @@ app.post('/api/v1/auth/token', (req, res) => {
 })
 
 
-app.delete('/api/v1/auth/logout', async (req, res) => {
-    const refreshToken = req.body.token
+app.delete('/api/v1/auth/logout/refreshToken', async (req, res) => {
+    const refreshToken = req.params.refreshToken
 
     try {
         await db.query(`DELETE FROM tokens WHERE refresh_token = $1`, [refreshToken])
