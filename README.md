@@ -29,6 +29,8 @@ cd client
 ##### 2. Start the React application:
 ```
 npm start
-```
 
-Your application should now be running locally.
+```
+Your application should now be running locally.  
+
+![Home Page](client/public/screenshots/home-page.png)
