@@ -36,16 +36,16 @@ const Signup = () => {
                     value={username} 
                     onChange={(e) => setUsername(e.target.value)} 
                     placeholder='Username' 
-                    className='h-10'
+                    className='h-10 text-md px-4'
                 />
                 <input 
                     type='password' 
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
                     placeholder='Password'
-                    className='h-10' 
+                    className='h-10 text-md px-4' 
                 />
-                <button className='h-10 font-archivo text-white bg-black ' type='submit'>
+                <button className='h-10 font-archivo text-white bg-black rounded-full' type='submit'>
                     Sign Up
                 </button>
             </form>

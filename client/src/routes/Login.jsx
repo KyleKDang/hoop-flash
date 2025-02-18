@@ -37,7 +37,7 @@ const Login = () => {
                     onChange={(e) => setUsername(e.target.value)} 
                     placeholder='Username' 
                     required
-                    className='h-10'
+                    className='h-10 text-md px-4'
                 />
                 <input 
                     type='password' 
@@ -45,9 +45,9 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)} 
                     placeholder='Password' 
                     required
-                    className='h-10'
+                    className='h-10 text-md px-4'
                 />
-                <button className='h-10 font-archivo text-white bg-black' type='submit'>
+                <button className='h-10 font-archivo text-white bg-black rounded-full' type='submit'>
                     Log In
                 </button>
             </form>
