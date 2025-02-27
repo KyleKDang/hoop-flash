@@ -7,7 +7,7 @@ const Home = () => {
   const accessToken = localStorage.getItem('accessToken')
 
   const [videos, setVideos] = useState([])
-  const { user, setUser, setLoggedIn } = useContext(AuthContext)
+  const { setUser, setLoggedIn } = useContext(AuthContext)
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -51,7 +51,6 @@ const Home = () => {
 
   return (
     <div className='flex flex-col items-center'>
-    <h1 className='text-white'><em>{`Logged in as ${user.username}`}</em></h1>
     <VideosList videos={videos} />
     </div>
   )
