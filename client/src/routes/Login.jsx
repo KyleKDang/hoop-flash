@@ -24,7 +24,15 @@ const Login = () => {
             navigate('/')
         } catch (err) {
             console.log(err)
-            alert('The info entered is not valid. Please try again.')
+            if (err.response) {
+                if (err.response.status === 400) {
+                    alert('The info entered is not valid. Please try again.')
+                } else {
+                    alert('Unexpected error occurred. Please try again.')
+                }
+            } else {
+                alert('Unexpected error occurred. Please try again.')
+            }  
         }
     }
 

@@ -26,7 +26,11 @@ const Signup = () => {
             if (err.response) {
                 if (err.response.status === 409) {
                     alert('Username is already taken. Please try again.')
+                } else {
+                    alert('Unexpected error occurred. Please try again.')
                 }
+            } else {
+                alert('Unexpected error occurred. Please try again.')
             }
         }
     }
