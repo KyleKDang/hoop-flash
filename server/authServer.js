@@ -68,8 +68,6 @@ app.post('/api/v1/auth/login', async (req, res) => {
 
         const userResponse = await db.query('SELECT * FROM users WHERE username = $1', [username])
         const userData = userResponse.rows[0]
-        const userId = userData.id
-
 
         if (!userData) {
             return res.status(400).json({
@@ -77,6 +75,8 @@ app.post('/api/v1/auth/login', async (req, res) => {
                 message: 'Cannot find user'
             })
         }
+
+        const userId = userData.id
 
         if (await bcrypt.compare(password, userData.password_hash)) {
             const user = { userId, username }

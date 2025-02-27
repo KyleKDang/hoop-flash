@@ -15,7 +15,8 @@ const Login = () => {
                 username,
                 password
             })
-             console.log('successfully logged in')
+
+            console.log('successfully logged in')
     
             const accessToken = response.data.data.accessToken
             localStorage.setItem('accessToken', accessToken)
@@ -23,6 +24,7 @@ const Login = () => {
             navigate('/')
         } catch (err) {
             console.log(err)
+            alert('The info entered is not valid. Please try again.')
         }
     }
 
