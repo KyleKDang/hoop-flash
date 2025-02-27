@@ -23,6 +23,11 @@ const Signup = () => {
             navigate('/')
         } catch (err) {
             console.log(err)
+            if (err.response) {
+                if (err.response.status === 409) {
+                    alert('Username is already taken. Please try again.')
+                }
+            }
         }
     }
 
