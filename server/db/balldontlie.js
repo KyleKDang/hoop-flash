@@ -9,7 +9,7 @@ const balldontlie = new BalldontlieAPI({ apiKey: process.env.BALLDONTLIE_API_KEY
 
 const fetchTeams = async () => {
     try {
-        const teams = (await (await balldontlie.nba.getTeams()).data).slice(0, 30)
+        const teams = (await balldontlie.nba.getTeams()).data.slice(0, 30)
 
         console.log(teams)
         await db.query('DROP TABLE IF EXISTS teams')
@@ -34,7 +34,18 @@ const fetchTeams = async () => {
     } catch (err) {
         console.log(err)
     }
-    
 }
 
-fetchTeams()
+
+const fetchGames = async () => {
+    try {
+        const today = new Date().toISOString().split('T')[0]
+        const games = (await balldontlie.nba.getGames({ start_date: today, end_date: today })).data
+        return games
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+module.exports = { fetchTeams, fetchGames }

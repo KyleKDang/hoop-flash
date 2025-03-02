@@ -1,11 +1,21 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
+const Redis = require('redis')
 
 const app = express()
 
 const db = require('./db')
+const { fetchGames } = require('./db/balldontlie.js')
+
 const authenticateToken = require('./middleware/auth.js')
+
+const DEFAULT_EXPIRATION = 3600
+const redisClient = Redis.createClient() // Add production url as a parameter Redis.createClient({ url : ___ })
+redisClient.on('connect', () => {
+    console.log('Redis client connected');
+});
+redisClient.connect()
 
 app.use(express.json())
 app.use(cors())
@@ -154,6 +164,46 @@ app.delete('/api/v1/teams/:user_id/:team_id', async (req, res) => {
         console.log(err)
     }
 })
+
+
+app.get('/api/v1/games', async (req, res) => {
+    try {
+        const games = await redisClient.get('games')
+
+        if (games != null) { 
+            console.log('cache hit')
+    
+            return res.status(200).json({
+                status: 'success',
+                data: {
+                    games: JSON.parse(games)
+                }
+            })
+        } else {
+            console.log('cache miss')
+    
+            const games = await fetchGames()
+            redisClient.setEx('games', 3600, JSON.stringify(games))
+
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    games
+                }
+            })
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+
+process.on('SIGINT', () => {
+    redisClient.quit();
+    console.log('Redis client disconnected');
+    process.exit();
+});
 
 
 const port = process.env.PORT || 3000
