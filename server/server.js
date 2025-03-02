@@ -52,7 +52,7 @@ app.get('/api/v1/videos', authenticateToken, async (req, res) => {
         );
         const userTeams = userTeamsResponse.rows
 
-        const filteredVideos = await redisClient.get(`filteredVideos?${req.user.userId}`)
+        const filteredVideos = await redisClient.get(`filteredVideos:${req.user.userId}`)
 
         if (filteredVideos != null) {
             res.status(200).json({
@@ -145,7 +145,7 @@ app.post('/api/v1/teams', async (req, res) => {
             RETURNING *
         `, [req.body.user_id, req.body.team_id])
 
-        await redisClient.del(`filteredVideos?${req.body.user_id}`)
+        await redisClient.del(`filteredVideos:${req.body.user_id}`)
 
         res.status(201).json({
             status: 'success',
@@ -168,7 +168,7 @@ app.delete('/api/v1/teams/:user_id/:team_id', async (req, res) => {
             AND team_id = $2
         `, [req.params.user_id, req.params.team_id])
 
-        await redisClient.del(`filteredVideos?${req.params.user_id}`)
+        await redisClient.del(`filteredVideos:${req.params.user_id}`)
 
         res.status(204).json({
             status: 'success',
