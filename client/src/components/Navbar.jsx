@@ -27,7 +27,8 @@ const Navbar = () => {
           <Link to='/'><img src='/hoopflash/hoopflash-logo-black.png' alt='hoopflash logo' className='h-12'/></Link>
           <img src='/hoopflash/lightning-bolt.png' alt='lightning bolt'className='h-7'/>
         </li>
-        <li><Link to='/teams' className='font-archivo mr-4 lg:mr-14 hover:text-neutral-300'>TEAMS</Link></li>
+        <li><Link to='/teams' className='font-archivo mr-4 lg:mr-8 hover:text-neutral-300'>TEAMS</Link></li>
+        <li><Link to='/games' className='font-archivo mr-4 lg:mr-8 hover:text-neutral-300'>GAMES</Link></li>
       </ul>
       <ul className='flex mr-2 lg:mr-4 gap-2 lg:gap-8'>
         {!loggedIn && <li><Link to='/login' className='font-archivo hover:text-neutral-300'>LOGIN</Link></li>}

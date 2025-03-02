@@ -171,17 +171,13 @@ app.get('/api/v1/games', async (req, res) => {
         const games = await redisClient.get('games')
 
         if (games != null) { 
-            console.log('cache hit')
-    
-            return res.status(200).json({
+            res.status(200).json({
                 status: 'success',
                 data: {
                     games: JSON.parse(games)
                 }
             })
         } else {
-            console.log('cache miss')
-    
             const games = await fetchGames()
             redisClient.setEx('games', 3600, JSON.stringify(games))
 
@@ -192,7 +188,6 @@ app.get('/api/v1/games', async (req, res) => {
                 }
             })
         }
-
     } catch (err) {
         console.log(err)
     }
