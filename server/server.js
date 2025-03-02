@@ -46,41 +46,51 @@ app.get('/api/v1/user', authenticateToken, (req, res) => {
 app.get('/api/v1/videos', authenticateToken, async (req, res) => {
 
     try {
-        const videosResponse = await db.query('SELECT * FROM videos')
-        const videos = videosResponse.rows
-
         const userTeamsResponse = await db.query(
             `SELECT name FROM user_teams INNER JOIN teams ON team_id = teams.id WHERE user_id = $1`, 
             [req.user.userId]
         );
         const userTeams = userTeamsResponse.rows
 
-        const teamsSet = new Set()
-        userTeams.forEach((userTeam) => {
-            teamsSet.add(userTeam.name.toLowerCase())
-        })
+        const filteredVideos = await redisClient.get(`filteredVideos?${req.user.userId}`)
 
-        
-        const filteredVideos = videos.filter((video) => {
-            try {
-                const videoTitle = video.title.toLowerCase()
-                const [team1, team2WithRest] = videoTitle.split(' at ')
-                const [team2, ...rest] = team2WithRest.trim().split(' | ')
-                return teamsSet.has(team1) || teamsSet.has(team2)
-            } catch (err) {
-                console.log(err)
-            }
-        })
-        
-        
-        res.status(200).json({
-            status: 'success',
-            data: {
-                videos: filteredVideos,
-                userTeams
-            }
-        })
+        if (filteredVideos != null) {
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    videos: JSON.parse(filteredVideos),
+                    userTeams
+                }
+            })
+        } else {
+            const videosResponse = await db.query('SELECT * FROM videos')
+            const videos = videosResponse.rows
 
+            const teamsSet = new Set()
+            userTeams.forEach((userTeam) => {
+                teamsSet.add(userTeam.name.toLowerCase())
+            })
+
+            const filteredVideos = videos.filter((video) => {
+                try {
+                    const videoTitle = video.title.toLowerCase()
+                    const [team1, team2WithRest] = videoTitle.split(' at ')
+                    const [team2, ...rest] = team2WithRest.trim().split(' | ')
+                    return teamsSet.has(team1) || teamsSet.has(team2)
+                } catch (err) {
+                    console.log(err)
+                }
+            })
+            await redisClient.setEx(`filteredVideos?${req.user.userId}`, 3600, JSON.stringify(filteredVideos))
+            
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    videos: filteredVideos,
+                    userTeams
+                }
+            })
+        }
     } catch (err) {
         console.log(err)
     }
@@ -135,6 +145,8 @@ app.post('/api/v1/teams', async (req, res) => {
             RETURNING *
         `, [req.body.user_id, req.body.team_id])
 
+        await redisClient.del(`filteredVideos?${req.body.user_id}`)
+
         res.status(201).json({
             status: 'success',
             data: {
@@ -155,6 +167,8 @@ app.delete('/api/v1/teams/:user_id/:team_id', async (req, res) => {
             WHERE user_id = $1
             AND team_id = $2
         `, [req.params.user_id, req.params.team_id])
+
+        await redisClient.del(`filteredVideos?${req.params.user_id}`)
 
         res.status(204).json({
             status: 'success',
@@ -179,7 +193,7 @@ app.get('/api/v1/games', async (req, res) => {
             })
         } else {
             const games = await fetchGames()
-            redisClient.setEx('games', 3600, JSON.stringify(games))
+            await redisClient.setEx('games', 3600, JSON.stringify(games))
 
             res.status(200).json({
                 status: 'success',
@@ -188,6 +202,7 @@ app.get('/api/v1/games', async (req, res) => {
                 }
             })
         }
+
     } catch (err) {
         console.log(err)
     }
