@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import GamesFinder from '../apis/api'
+import GameCard from '../components/GameCard'
 
 const Games = () => {
   const [games, setGames] = useState([])
@@ -18,10 +19,9 @@ const Games = () => {
 
   return (
     <>
-    <h1 className='place-self-center text-white text-4xl mt-20 mb-12'>Today's Games</h1>
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center gap-6 pt-8 pb-8'>
     {games.map((game) => {
-        return <div className='text-white'>{game.home_team.full_name} vs {game.visitor_team.full_name}</div> 
+        return <GameCard game={game}/>
     })}
     </div>
     </>
