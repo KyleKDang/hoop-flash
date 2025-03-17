@@ -96,6 +96,26 @@ app.get('/api/v1/videos', authenticateToken, async (req, res) => {
     }
 })
 
+app.get('/api/v1/teams', async (req, res) => {
+    try {
+
+        const teamsResponse = await db.query(`
+            SELECT teams.id, full_name 
+            FROM teams
+        `)
+        const teams = teamsResponse.rows
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                teams
+            }
+        })
+
+    } catch (err) {
+        console.log(err)
+    }
+})
 
 app.get('/api/v1/teams:user_id', async (req, res) => {
     try {
