@@ -96,6 +96,7 @@ app.get('/api/v1/videos', authenticateToken, async (req, res) => {
     }
 })
 
+
 app.get('/api/v1/teams', async (req, res) => {
     try {
 
@@ -116,6 +117,7 @@ app.get('/api/v1/teams', async (req, res) => {
         console.log(err)
     }
 })
+
 
 app.get('/api/v1/teams:user_id', async (req, res) => {
     try {
