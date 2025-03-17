@@ -20,9 +20,9 @@ const GameCard = ({ game }) => {
             className='w-1/6 pr-10'
         />
         <div className='grid grid-cols-[2fr_1fr_2fr] gap-x-2 w-2/3 items-center text-white text-wrap font-archivo'>
-            <div className='text-3xl text-center'>{game.visitor_team.full_name}</div>
-            <div className='text-2xl text-center'>at</div> 
-            <div className='text-3xl text-center'>{game.home_team.full_name}</div>
+            <div className='text-2xl text-center'>{game.visitor_team.full_name}</div>
+            <div className='text-lg text-center'>at</div> 
+            <div className='text-2xl text-center'>{game.home_team.full_name}</div>
         </div>
         <img 
             src={`/team-logos/${teamLogosAlpha[game.home_team.id - 1]}`} 
