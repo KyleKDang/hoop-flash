@@ -8,7 +8,6 @@ const TeamCard = ({ team, selected }) => {
   const { user } = useContext(AuthContext)
 
   const handleSelectTeam = async (teamId) => {
-    console.log(teamId)
     await TeamSelector.post('/teams', {
         user_id: user.userId,
         team_id: teamId
@@ -16,7 +15,6 @@ const TeamCard = ({ team, selected }) => {
   }
 
   const handleUnselectTeam = async (teamId) => {
-    console.log(teamId)
     await TeamSelector.delete(`/teams/${user.userId}/${teamId}`)
   }
 
