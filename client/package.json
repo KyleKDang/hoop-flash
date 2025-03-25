@@ -11,7 +11,7 @@
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1"
   },
-  "homepage": "https://KyleKDang.github.io/hoop-flash",
+  "homepage": "http://hoopflash-s3.s3-website.us-east-2.amazonaws.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
