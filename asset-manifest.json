@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/hoop-flash/static/css/main.83a2abcd.css",
+    "main.js": "/hoop-flash/static/js/main.032b1ae4.js",
+    "index.html": "/hoop-flash/index.html",
+    "main.83a2abcd.css.map": "/hoop-flash/static/css/main.83a2abcd.css.map",
+    "main.032b1ae4.js.map": "/hoop-flash/static/js/main.032b1ae4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.83a2abcd.css",
+    "static/js/main.032b1ae4.js"
+  ]
+}
