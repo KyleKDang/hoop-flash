@@ -12,38 +12,25 @@ You can access the live version of the site hosted on AWS S3 here: [HoopFlash](h
 - Schedule of today's games
 
 ![Home Page](client/public/screenshots/home-page.png)
+
 ![Teams Page](client/public/screenshots/teams-page.png)
+
 ![Games Page](client/public/screenshots/games-page.png)
 
 ### Running the Project Locally
 
-#### Install Dependencies
-
-##### Before running the project, install all necessary dependencies:
+##### 1. Before running the project, install all necessary dependencies:
 ```
 npm install
 ```
 
-#### Backend
-
-##### 1. Navigate to the server directory:
-```
-cd server
-```
-##### 2. Start both the main server (API endpoints) and the authentication server:
-```
-npm start
-```
-
-#### Frontend
-
-##### 1. Open a new terminal and navigate to the client directory:
+##### 2. Navigate to the client directory:
 ```
 cd client
 ```
-##### 2. Start the React application:
+##### 3. Start the React application:
 ```
 npm start
-
 ```
+
 Your application should now be running locally.  
