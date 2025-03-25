@@ -8,7 +8,7 @@ You can access the live version of the site hosted on AWS S3 here: [HoopFlash](h
 
 #### Features
 - Highlights videos
-- Teams selection
+- Teams selection menu
 - Schedule of today's games
 
 ![Home Page](client/public/screenshots/home-page.png)
