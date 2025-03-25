@@ -51,11 +51,11 @@ const Home = () => {
 
   return (
     <div className='flex flex-col items-center'>
-    {
+    {/*
       videos.length === 0 && 
       <h1 className='text-white font-archivo text-2xl pt-8 mb-8'>SELECT A TEAM FROM THE TEAMS PAGE TO VIEW HIGHLIGHTS</h1>
-    }
-    {videos.length === 0 && <img className='w-2/3' src='/screenshots/nba-poster.png' alt='nba poster'/>}
+    */}
+    {/*videos.length === 0 && <img className='w-2/3' src='/screenshots/nba-poster.png' alt='nba poster'/>*/}
     <VideosList videos={videos} />
     </div>
   )
