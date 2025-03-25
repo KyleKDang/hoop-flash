@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import teamLogos from '../images/team-logos.js'
+import teamLogos from '../images/team-logos-alpha.js'
 import TeamSelector from '../apis/api'
 import { IoMdCheckmark } from "react-icons/io"
 import { AuthContext } from '../contexts/AuthContext.jsx'
