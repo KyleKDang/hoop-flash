@@ -57,7 +57,7 @@ const Home = () => {
       selectedTeams.length === 0 && 
       <h1 className='text-white font-archivo text-2xl pt-8 mb-8'>SELECT A TEAM FROM THE TEAMS PAGE TO VIEW HIGHLIGHTS</h1>
     }
-    {selectedTeams.length === 0 && <img src='/screenshots/nba-poster' alt='nba poster'/>}
+    {selectedTeams.length === 0 && <img src='/screenshots/nba-poster.png' alt='nba poster'/>}
     <VideosList videos={videos} />
     </div>
   )
