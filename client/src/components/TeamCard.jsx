@@ -32,7 +32,7 @@ const TeamCard = ({ team, selected }) => {
           <span className='text-white font-archivo text-xl md:text-2xl lg:text-2xl'>{team.full_name}</span>
           <button 
               onClick={() => selected ? handleUnselectTeam(team.id) : handleSelectTeam(team.id)} 
-              className='w-60 lg:w-72 button text-white font-archivo bg-black p-2 rounded-full hover:outline active:bg-neutral-700 active:outline group'>
+              className='w-60 md:64 lg:w-72 button text-white font-archivo bg-black p-2 rounded-full hover:outline active:bg-neutral-700 active:outline group'>
               <div className='flex justify-center items-center gap-2'>
                 <span className='group-active:hidden group-hover:hidden'>{selected ? 'Selected' : 'Select'}</span>
                 <span className='hidden group-active:block group-hover:block'>{selected ? 'Unselect' : 'Select'}</span>
